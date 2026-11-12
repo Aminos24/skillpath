@@ -43,6 +43,14 @@ function Roadmap() {
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState("");
 
+  // Normalize occupation titles for comparison
+  function normalizeTitle(title) {
+    return (title || "")
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, " ");
+  }
+
   // Fetch official occupation information from ESCO
   useEffect(() => {
     if (!career) return;
@@ -60,11 +68,12 @@ function Roadmap() {
         if (!cancelled) {
           const exactMatch = results.find(
             (item) =>
-              item.title?.toLowerCase() ===
-              career.title.toLowerCase()
+              normalizeTitle(item.title) ===
+              normalizeTitle(career.title)
           );
 
-          setOccupation(exactMatch || results[0] || null);
+          // Only display a matching occupation
+          setOccupation(exactMatch || null);
         }
       } catch (error) {
         if (!cancelled) {
@@ -236,7 +245,9 @@ function Roadmap() {
 
           {!loading && !apiError && !occupation && (
             <Alert variant="secondary">
-              No occupation information found.
+              No exact ESCO occupation match found for{" "}
+              <strong>{career.title}</strong>.
+              The learning roadmap is still available below.
             </Alert>
           )}
         </Card.Body>
