@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+import { HashRouter, Routes, Route, NavLink, Link } from "react-router-dom";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import { Compass } from "lucide-react";
 
@@ -9,10 +9,10 @@ import Roadmap from "./pages/Roadmap";
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Navbar bg="dark" data-bs-theme="dark" expand="lg">
         <Container>
-          <Navbar.Brand href="#">
+          <Navbar.Brand as={Link} to="/">
             <Compass size={22} className="me-2" />
             SkillPath
           </Navbar.Brand>
@@ -42,7 +42,7 @@ function App() {
         <Route path="/careers" element={<Careers />} />
         <Route path="/roadmap" element={<Roadmap />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
